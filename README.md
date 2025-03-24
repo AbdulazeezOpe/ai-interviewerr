@@ -16,7 +16,7 @@ An automated web-based AI interviewer built with Flask and OpenAI. It generates 
 - Collects candidate name, email, and job role
 - Generates 5 tailored AI interview questions
 - Candidates respond using text or voice
-- Voice input transcribed using OpenAI Whisper
+- Voice input transcribed using OpenAI Whisper API (not local)
 - Evaluates answers using GPT-4 and scores from 1–10
 - Returns structured JSON output with individual and overall scores
 - Saves each submission to a JSON file for review
@@ -26,23 +26,39 @@ An automated web-based AI interviewer built with Flask and OpenAI. It generates 
 ## Tech Stack
 
 - Python (Flask)
-- OpenAI GPT-4 + Whisper API
+- OpenAI GPT-4 + Whisper API (hosted, not local)
 - HTML, CSS, JavaScript frontend
 - JSON file storage (interview_results.json)
-- Hosted on Replit
+- Hosting-ready for Render or Railway (Replit no longer supports public Flask apps for free)
 
 ---
 
-## How to Run (Replit)
+## How to Run
 
-1. Import this project into [https://replit.com](https://replit.com)
-2. Add your OpenAI API key in the Replit Secrets tab:
+### Option 1: Locally (Recommended)
+1. Clone this repo
+2. Install dependencies:
 ```
-OPENAI_API_KEY = sk-xxxxxxxxxxxxxxxxxxxx
+pip install -r requirements.txt
 ```
-3. Click **Run**
+3. Add your OpenAI API key as an environment variable:
+```
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxx
+```
+4. Run the app:
+```
+python main.py
+```
 
-> The app will be available on your public Replit URL (e.g. https://your-name.replit.app)
+### Option 2: Deploy to Render
+1. Push this repo to GitHub
+2. Go to [https://render.com](https://render.com) and create a new Web Service
+3. Connect your GitHub repo and set:
+   - Build command: `pip install -r requirements.txt`
+   - Start command: `python main.py`
+4. Add your OpenAI key to the Render environment variables
+
+> Note: Replit no longer supports public hosting for Flask apps on the free plan.
 
 ---
 
@@ -52,7 +68,7 @@ OPENAI_API_KEY = sk-xxxxxxxxxxxxxxxxxxxx
 ├── api/
 │   ├── question_generator.py   # Generates AI questions
 │   ├── response_evaluator.py   # Scores answers with GPT-4
-│   └── voice_processing.py     # Transcribes voice using Whisper
+│   └── voice_processing.py     # Transcribes voice using Whisper API
 ├── database/
 │   └── db.py                   # Saves results to JSON
 ├── templates/
@@ -86,6 +102,6 @@ OPENAI_API_KEY = sk-xxxxxxxxxxxxxxxxxxxx
 **Title:** Web Scraping & AI Automation Expert  
 **GitHub:** [AbdulazeezOpe](https://github.com/AbdulazeezOpe)
 
----
+
 
 
