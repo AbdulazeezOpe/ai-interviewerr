@@ -73,6 +73,15 @@ def evaluate_interview():
         "overall_score": overall
     })
 
+from flask import send_file
+
+@app.route("/admin/download_results", methods=["GET"])
+def admin_download():
+    password = request.args.get("key")
+    if password != os.getenv("ADMIN_KEY"):
+        return "Unauthorized", 401
+    return send_file("interview_results.json", as_attachment=True)
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
