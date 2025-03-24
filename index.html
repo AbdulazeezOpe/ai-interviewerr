@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Interviewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+      display: block;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .question-block {
+      margin-bottom: 20px;
+    }
+    .voice-response button {
+      width: auto;
+      margin-right: 10px;
+    }
+    audio {
+      margin-top: 10px;
+    }
+    hr {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>AI Interviewer</h2>
+
+  <form id="role-form">
+    <label>Full Name:</label>
+    <input type="text" id="full_name" required>
+
+    <label>Email Address:</label>
+    <input type="email" id="email" required>
+
+    <label>Job Role:</label>
+    <input type="text" id="job_role" required>
+
+    <button type="submit">Generate Questions</button>
+  </form>
+
+  <div id="questions-container" style="display:none">
+    <form id="response-form" enctype="multipart/form-data">
+      <input type="hidden" name="full_name" id="form_full_name">
+      <input type="hidden" name="email" id="form_email">
+      <input type="hidden" name="job_role" id="form_job_role">
+
+      <label>Response Mode:</label>
+      <select id="use_voice" name="use_voice">
+        <option value="false">Text</option>
+        <option value="true">Voice</option>
+      </select>
+
+      <div id="questions-list"></div>
+      <button type="submit">Submit Answers</button>
+    </form>
+  </div>
+
+  <div id="results" style="display:none">
+    <h3>Results</h3>
+    <div id="results-content"></div>
+  </div>
+
+  <script>
+    const roleForm = document.getElementById("role-form");
+    const responseForm = document.getElementById("response-form");
+    const questionsList = document.getElementById("questions-list");
+    const results = document.getElementById("results");
+    const resultsContent = document.getElementById("results-content");
+    const questionsContainer = document.getElementById("questions-container");
+
+    let questions = [];
+
+    roleForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const jobRole = document.getElementById("job_role").value;
+      const fullName = document.getElementById("full_name").value;
+      const email = document.getElementById("email").value;
+
+      const res = await fetch("/generate_questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ job_role: jobRole })
+      });
+
+      const data = await res.json();
+      questions = data.questions;
+
+      document.getElementById("form_job_role").value = jobRole;
+      document.getElementById("form_full_name").value = fullName;
+      document.getElementById("form_email").value = email;
+
+      questionsList.innerHTML = "";
+      questions.forEach((q, i) => {
+        questionsList.innerHTML += `
+          <div class="question-block">
+            <p><strong>Q${i + 1}:</strong> ${q}</p>
+            <input type="hidden" name="questions" value="${q}">
+            <div class="text-response">
+              <textarea name="responses" rows="3" required></textarea>
+            </div>
+            <div class="voice-response" style="display:none">
+              <button type="button" onclick="startRecording(${i})">🎙️ Start</button>
+              <button type="button" onclick="stopRecording(${i})">⏹ Stop</button>
+              <audio id="audio_preview_${i}" controls style="display:none"></audio>
+              <input type="file" name="audio_${i}" id="audio_input_${i}" accept="audio/*" style="display:none">
+            </div>
+          </div>
+        `;
+      });
+
+      questionsContainer.style.display = "block";
+    };
+
+    document.getElementById("use_voice").onchange = function () {
+      const useVoice = this.value === "true";
+      document.querySelectorAll(".text-response").forEach(el => el.style.display = useVoice ? "none" : "block");
+      document.querySelectorAll(".voice-response").forEach(el => el.style.display = useVoice ? "block" : "none");
+    };
+
+    responseForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(responseForm);
+      const res = await fetch("/evaluate_interview", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      results.style.display = "block";
+      resultsContent.innerHTML = "";
+      data.questions.forEach((item, i) => {
+        resultsContent.innerHTML += `
+          <p><strong>Q${i + 1}:</strong> ${item.question}</p>
+          <p><strong>Response:</strong> ${item.response}</p>
+          <p><strong>Score:</strong> ${item.score}</p><hr>
+        `;
+      });
+      resultsContent.innerHTML += `<p><strong>Overall Score:</strong> ${data.overall_score}</p>`;
+    };
+
+    let mediaRecorders = {};
+    let audioBlobs = {};
+
+    function startRecording(index) {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        let chunks = [];
+
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'audio/mp3' });
+          const audioURL = URL.createObjectURL(blob);
+
+          const audioElement = document.getElementById(`audio_preview_${index}`);
+          audioElement.src = audioURL;
+          audioElement.style.display = "block";
+
+          const fileInput = document.getElementById(`audio_input_${index}`);
+          const file = new File([blob], `audio_${index}.mp3`, { type: 'audio/mp3' });
+
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          fileInput.files = dataTransfer.files;
+        };
+
+        mediaRecorders[index] = mediaRecorder;
+        audioBlobs[index] = chunks;
+        mediaRecorder.start();
+      }).catch(err => alert("Microphone access denied: " + err));
+    }
+
+    function stopRecording(index) {
+      if (mediaRecorders[index]) {
+        mediaRecorders[index].stop();
+      }
+    }
+  </script>
+</body>
+</html>
+

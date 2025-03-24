@@ -1,0 +1,26 @@
+[
+  {
+    "full_name": "Abdulazeez Ibrahim",
+    "email": "abdulazeezopeyemi767@gmail.com",
+    "job_role": "Data Analyst",
+    "question": "**Data Visualization**: Explain the importance of data visualization in data analysis. What are the key principles you follow when creating a dashboard for stakeholders?",
+    "response": "it makes us understand the data better. clear and readable visuals",
+    "score": 3
+  },
+  {
+    "full_name": "Abdulazeez Ibrahim",
+    "email": "abdulazeezopeyemi767@gmail.com",
+    "job_role": "Data Analyst",
+    "question": "**Statistical Analysis**: How would you determine if a new marketing campaign has had a statistically significant impact on sales? What statistical tests would you consider, and what kind of data would you need?",
+    "response": "Steps & Tests:\r\n\r\nData Needed:\r\n\r\nPre/post-campaign sales data.\r\n\r\nControl group (if possible) to isolate campaign impact.\r\n\r\nTimeframe (e.g., daily/weekly sales).\r\n\r\nStatistical Tests:\r\n\r\nA/B Testing: Compare means (e.g., t-test) between control/exposed groups.\r\n\r\nTime-Series Analysis: Check for shifts post-campaign (e.g., ANOVA, regression with dummy variables).\r\n\r\nChi-Square: If analyzing categorical outcomes (e.g., conversion rates).\r\n\r\nKey Metrics:\r\n\r\np-value (significance threshold, e.g., <0.05).\r\n\r\nEffect size (practical impact, e.g., 10% sales lift).\r\n\r\nConfidence Intervals (range of likely impact).\r\n\r\nExample:\r\n\r\nUse a two-sample t-test to compare average sales before/after the campaign. If p < 0.05 and effect size is meaningful, conclude significance.\r\n\r\nWhy It Matters:\r\n\r\nAvoids false claims (Type I/II errors).\r\n\r\nGuides budget decisions (e.g., scaling campaigns with proven ROI).",
+    "score": 9
+  },
+  {
+    "full_name": "Abdulazeez Ibrahim",
+    "email": "abdulazeezopeyemi767@gmail.com",
+    "job_role": "Data Analyst",
+    "question": "**Data Interpretation**: You\u2019ve completed an analysis and discovered that a particular product has seen a 20% drop in sales over the last quarter. What steps would you take to investigate the cause of this decline, and how would you present your findings to a non-technical audience?",
+    "response": "Investigation Steps:\r\n\r\nVerify Data: Confirm accuracy (e.g., reporting errors, seasonality).\r\n\r\nSegment Analysis: Break down by region, customer demographics, or sales channels.\r\n\r\nExternal Factors: Check competitors, economic shifts, or supply chain issues.\r\n\r\nInternal Factors: Assess pricing changes, marketing cuts, or product issues (e.g., reviews/returns).\r\n\r\nCustomer Feedback: Analyze surveys, reviews, or support tickets for trends.\r\n\r\nPresentation to Non-Technical Audience:\r\n\r\nVisuals: Use simple line/bar charts to show the drop and comparisons (e.g., \"Sales fell 20% in Region X\").\r\n\r\nStorytelling: Link cause-effect (e.g., \"Launch of Competitor Y coincided with decline\").\r\n\r\nRecommendations: Actionable fixes (e.g., \"Revamp promotions in Region X\" or \"Address quality complaints\").\r\n\r\nExample:\r\n\r\nSlide 1: Trend graph showing decline.\r\n\r\nSlide 2: Heatmap of regional performance.\r\n\r\nSlide 3: Key driver (e.g., \"50% of negative reviews mention packaging issues\").",
+    "score": 9
+  }
+]
