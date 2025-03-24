@@ -1,6 +1,6 @@
 ![Made with Flask](https://img.shields.io/badge/Powered%20By-Flask-blue)
 ![Uses OpenAI GPT-4](https://img.shields.io/badge/OpenAI-GPT--4-green)
-![Replit Ready](https://img.shields.io/badge/Hosted%20on-Replit-orange)
+![Render Ready](https://img.shields.io/badge/Hosted%20on-Render-orange)
 
 > 🧠 AI Interviewer for scoring technical candidates with GPT-4 & Whisper.
 
