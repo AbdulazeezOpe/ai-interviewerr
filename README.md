@@ -1,3 +1,10 @@
+![Made with Flask](https://img.shields.io/badge/Powered%20By-Flask-blue)
+![Uses OpenAI GPT-4](https://img.shields.io/badge/OpenAI-GPT--4-green)
+![Replit Ready](https://img.shields.io/badge/Hosted%20on-Replit-orange)
+
+> 🧠 AI Interviewer for scoring technical candidates with GPT-4 & Whisper.
+
+
 # AI Interviewer
 
 An automated web-based AI interviewer built with Flask and OpenAI. It generates job-specific interview questions, allows candidates to respond via text or voice, and scores each answer using AI.
