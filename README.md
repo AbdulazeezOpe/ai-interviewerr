@@ -4,7 +4,6 @@
 
 > 🧠 AI Interviewer for scoring technical candidates with GPT-4 & Whisper.
 
-
 # AI Interviewer
 
 🔗 **Live Demo:** [Try it here](https://ai-interviewerr.onrender.com)
@@ -99,9 +98,34 @@ python main.py
 
 ---
 
+## Admin Access (Secure Download)
+
+Interview submissions are stored in a private JSON file: `interview_results.json`.
+
+To securely download the file:
+
+🔐 Visit this protected route:
+```
+https://ai-interviewerr.onrender.com/admin/download_results?key=interview_database
+```
+
+> Replace `interview_database` with your own secret key if you change it in the environment variables.
+
+This endpoint is protected and intended for admin access only.
+
+---
+
 ## Credits
 **Author:** Abdulazeez Ibrahim  
 **Title:** Web Scraping & AI Automation Expert  
 **GitHub:** [AbdulazeezOpe](https://github.com/AbdulazeezOpe)
+
+---
+
+## Coming Soon
+- Admin dashboard for reviewing interviews
+- Google Sheets integration
+- Export results as PDF or CSV
+- Enhanced scoring breakdown per category (clarity, relevance, etc.)
 
 
